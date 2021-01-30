@@ -1,6 +1,7 @@
 activity = {
     "@type": "Activity",
     "id": "activity_test",
+    "name": "Activity test",
     "id_strava": 12345678987654321,
     "distance": 28099,
     "moving_time": 4207,

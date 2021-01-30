@@ -4,6 +4,7 @@ from guillotina import schema
 
 class IActivity(IFolder):
     id_strava = schema.TextLine(title="Strava id")
+    name = schema.TextLine(title="Name")
     distance = schema.Int(title="Distance")
     moving_time = schema.Int(title="Moving time")
     elapsed_time = schema.Int(title="Elapsed time")
