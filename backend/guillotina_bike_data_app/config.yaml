@@ -6,7 +6,7 @@ applications:
 databases:
   db:
     storage: postgresql
-    dsn: postgresql://postgres@localhost:5432/guillotina
+    dsn: postgres://guillotina:guillotina@localhost:5432/guillotina_bike_app
     read_only: false
 host: localhost
 port: 8080
@@ -21,6 +21,7 @@ auth_token_validators:
   - guillotina.auth.validators.JWTValidator
 cors:
   allow_origin:
+    - http://localhost:3000
     - http://localhost:8080
     - "chrome-extension://*"
   allow_methods:
