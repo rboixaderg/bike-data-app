@@ -1,4 +1,4 @@
-import Menu from "../components/Menu";
+import Menu from '../components/Menu'
 
 export default function Segments() {
   return (
@@ -10,5 +10,5 @@ export default function Segments() {
         </div>
       </section>
     </>
-  );
+  )
 }

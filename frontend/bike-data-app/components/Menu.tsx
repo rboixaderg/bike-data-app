@@ -1,8 +1,8 @@
-import { useState } from "react";
-import Link from "next/link";
+import { useState } from 'react'
+import Link from 'next/link'
 
 export default function Menu() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const getItems = () => {
     return (
@@ -23,8 +23,8 @@ export default function Menu() {
           <a className="navbar-item editable">Guillotina</a>
         </Link>
       </>
-    );
-  };
+    )
+  }
   return (
     <nav className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
@@ -33,10 +33,10 @@ export default function Menu() {
         </div>
         <div
           onClick={() => {
-            setOpen(!open);
+            setOpen(!open)
           }}
           id="burger"
-          className={`navbar-burger burger ${open ? "is-active" : ""}`}
+          className={`navbar-burger burger ${open ? 'is-active' : ''}`}
         >
           <span />
           <span />
@@ -44,10 +44,10 @@ export default function Menu() {
         </div>
       </div>
 
-      <div id="navbarmenu" className={`navbar-menu ${open ? "is-active" : ""}`}>
+      <div id="navbarmenu" className={`navbar-menu ${open ? 'is-active' : ''}`}>
         <div className="navbar-start"></div>
         <div className="navbar-end">{getItems()}</div>
       </div>
     </nav>
-  );
+  )
 }

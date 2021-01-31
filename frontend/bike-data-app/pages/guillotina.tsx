@@ -1,11 +1,11 @@
-import React from "react";
-import { Guillotina as GuillotinaComponent } from "@guillotinaweb/react-gmi";
-import { Login } from "@guillotinaweb/react-gmi";
+import React from 'react'
+import { Guillotina as GuillotinaComponent } from '@guillotinaweb/react-gmi'
+import { Login } from '@guillotinaweb/react-gmi'
 
-import "../node_modules/@guillotinaweb/react-gmi/dist/css/style.css";
-import Menu from "../components/Menu";
-import Head from "next/head";
-import { auth } from "../services/guillotina";
+import '../node_modules/@guillotinaweb/react-gmi/dist/css/style.css'
+import Menu from '../components/Menu'
+import Head from 'next/head'
+import { auth } from '../services/guillotina'
 
 const registry = {
   // to register views around guillotina objects paths
@@ -22,25 +22,22 @@ const registry = {
   },
   behaviors: {},
   components: {},
-};
+}
 
 export default function Guillotina() {
-  const [isLogged, setLogged] = React.useState(auth.isLogged);
+  const [isLogged, setLogged] = React.useState(auth.isLogged)
 
   const onLogin = () => {
-    setLogged(true);
-  };
-  const onLogout = () => setLogged(false);
+    setLogged(true)
+  }
+  const onLogout = () => setLogged(false)
 
-  (auth as any).onLogout = onLogout;
-  console.log(process.env.NEXT_PUBLIC_GUILLOTINA_URL);
+  ;(auth as any).onLogout = onLogout
+  console.log(process.env.NEXT_PUBLIC_GUILLOTINA_URL)
   return (
     <>
       <Head>
-        <script
-          defer
-          src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
-        ></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
       </Head>
       <Menu />
       <section className="hero is-primary mb-3">
@@ -65,5 +62,5 @@ export default function Guillotina() {
         )}
       </div>
     </>
-  );
+  )
 }
