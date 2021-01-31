@@ -10,12 +10,17 @@ import { useMemo } from "react";
 //   return res.json();
 // };
 
-const fetchSearchGuillotina = async (url) => {
-  const res = await fetch(url, {
-    headers: {
-      Authorization: `Basic cm9vdDpyb290`,
-    },
-  });
+const fetchSearchGuillotina = async (url, dataStrava) => {
+  const res = await fetch(
+    `${url}?type_name=Activity&b_size=200&id__in=${dataStrava
+      .map((activity) => activity.id)
+      .join(",")}`,
+    {
+      headers: {
+        Authorization: `Basic cm9vdDpyb290`,
+      },
+    }
+  );
   return res.json();
 };
 
@@ -26,7 +31,7 @@ const fetchWithToken = async (
   page: number
 ) => {
   const res = await fetch(
-    `${url}?before=${timestap}&after=0&page=${page ?? 1}&per_page=10`,
+    `${url}?before=${timestap}&after=0&page=${page ?? 1}&per_page=200`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -41,10 +46,7 @@ export default function Synchronize() {
   const router = useRouter();
   const { page } = router.query;
 
-  const {
-    data: dataStrava,
-    error: errorDataStrava,
-  } = useSWR(
+  const { data: dataStrava } = useSWR(
     session?.accessToken
       ? [
           "https://www.strava.com/api/v3/athlete/activities",
@@ -61,21 +63,12 @@ export default function Synchronize() {
       )
   );
 
-  const {
-    data: dataGuillotina,
-    error: errorDataGuillotina,
-  } = useSWR(
+  const { data: dataGuillotina, mutate } = useSWR(
     session?.accessToken && dataStrava
-      ? [
-          "http://localhost:8080/db/container/@search?type_name=Activity",
-          session.accessToken,
-        ]
+      ? ["http://localhost:8080/db/container/@search", dataStrava]
       : null,
-    (url) => fetchSearchGuillotina(url)
+    (url) => fetchSearchGuillotina(url, dataStrava)
   );
-
-  console.log("dataStrava", dataStrava, errorDataStrava);
-  console.log(dataGuillotina, errorDataGuillotina);
 
   const dataToRender = useMemo(() => {
     if (dataStrava && "errors" in dataStrava) {
@@ -157,11 +150,18 @@ export default function Synchronize() {
           }),
         });
       });
+      mutate();
     }
   };
   const saveAllInGuillotina = () => {
     (dataStrava ?? []).map((activity) => {
-      saveActivityInGuillotina(activity);
+      if (
+        !dataGuillotina.items.find(
+          (activityGuillo) => activityGuillo.id === activity["id"].toString()
+        )
+      ) {
+        saveActivityInGuillotina(activity);
+      }
     });
   };
 
@@ -172,125 +172,81 @@ export default function Synchronize() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Menu />
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          {!session && !loading && (
-            <button
-              onClick={() => signIn()}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Sign in
-            </button>
-          )}
-          {session && (
-            <button
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              onClick={() => signOut()}
-            >
-              Sign out
-            </button>
-          )}
+
+      <section className="hero is-primary">
+        <div className="container hero-body">
+          <p className="title">Strava activities</p>
         </div>
-      </header>
-      <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        Strava activities
-      </h2>
-      <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <button
-          className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          onClick={() => saveAllInGuillotina()}
-        >
-          Sincronize all
+      </section>
+
+      <div className="container mt-3 mb-3">
+        {!session && !loading && (
+          <button onClick={() => signIn()} className="button">
+            Sign in strava
+          </button>
+        )}
+        {session && (
+          <button className="button" onClick={() => signOut()}>
+            Sign out strava
+          </button>
+        )}
+
+        <button className="button ml-5" onClick={() => saveAllInGuillotina()}>
+          Sincronize all activities to guillotina
         </button>
       </div>
 
-      <main>
-        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-          <div className="px-4 py-6 sm:px-0">
-            <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-              <div className="flex flex-col">
-                <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                  <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                      <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
-                          <tr>
-                            <th
-                              scope="col"
-                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                            >
-                              Sport
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                            >
-                              Date
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                            >
-                              Title
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                            >
-                              Distance
-                            </th>
-                            <th scope="col" className="relative px-6 py-3">
-                              <span className="sr-only">Save</span>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                          {(dataToRender ?? []).map((activity) => {
-                            return (
-                              <tr key={`strava_activity_${activity.id}`}>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                  <div className="text-sm text-gray-900">
-                                    {activity.type}
-                                  </div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                  <div className="text-sm text-gray-900">
-                                    {new Date(
-                                      activity.start_date_local
-                                    ).toLocaleDateString()}
-                                  </div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                  <div className="text-sm text-gray-900">
-                                    {activity.name}
-                                  </div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                  <div className="text-sm text-gray-900">
-                                    {activity.distance}
-                                  </div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                  <button
-                                    onClick={() =>
-                                      saveActivityInGuillotina(activity)
-                                    }
-                                    className="text-indigo-600 hover:text-indigo-900"
-                                  >
-                                    Saved
-                                  </button>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <main className="container">
+        <div className="table-container">
+          <table className="table is-striped is-fullwidth">
+            <thead>
+              <tr>
+                <th>Sport</th>
+                <th>Date</th>
+                <th>Title</th>
+                <th>Distance</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(dataToRender ?? []).map((activity) => {
+                return (
+                  <tr>
+                    <td>
+                      <div>{activity.type}</div>
+                    </td>
+                    <td>
+                      <div>
+                        {new Date(
+                          activity.start_date_local
+                        ).toLocaleDateString()}
+                      </div>
+                    </td>
+                    <td>
+                      <div>{activity.name}</div>
+                    </td>
+                    <td>
+                      <div>{activity.distance}</div>
+                    </td>
+                    <td>
+                      {dataGuillotina &&
+                        !dataGuillotina.items.find(
+                          (activityGuillo) =>
+                            activityGuillo.id === activity["id"].toString()
+                        ) && (
+                          <button
+                            onClick={() => saveActivityInGuillotina(activity)}
+                            className="button"
+                          >
+                            Saved
+                          </button>
+                        )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </main>
     </>
