@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { TableStravaActivitiesComponent } from '../components/StravaActivities/TableStravaActivities'
 import { saveActivityInGuillotina } from '../services/guillotina'
+import { Loading } from '@guillotinaweb/react-gmi'
 
 // const fetcher = async (input: RequestInfo, init: RequestInit) => {
 //   const res = await fetch(input, init);
@@ -111,6 +112,7 @@ export default function Synchronize() {
       </div>
 
       <main className="container">
+        {!dataStrava && <Loading />}
         <TableStravaActivitiesComponent
           dataToRender={dataToRender ?? []}
           dataGuillotina={dataGuillotina}
