@@ -21,8 +21,14 @@ class ISegmentEffort(IItem):
     index_field("segment", type="text")
     segment = schema.TextLine(title="Segment")
 
+    metadata("elapsed_time")
+    index_field("elapsed_time", type="int")
     elapsed_time = schema.Int(title="Elapsed time")
+
+    metadata("moving_time")
+    index_field("moving_time", type="int")
     moving_time = schema.Int(title="Moving time")
+
     start_date = schema.Datetime(title="Start date")
     start_date_local = schema.Datetime(title="Start date local")
 
@@ -36,6 +42,14 @@ class ISegmentEffort(IItem):
     metadata("average_cadence")
     index_field("average_cadence", type="float")
     average_cadence = schema.Float(title="Average cadence")
+
+    metadata("average_heartrate")
+    index_field("average_heartrate", type="float")
+    average_heartrate = schema.Float(title="Average heartrate")
+
+    metadata("max_heartrate")
+    index_field("max_heartrate", type="int")
+    max_heartrate = schema.Int(title="Max heartrate")
 
     metadata("device_watts")
     index_field("device_watts", type="boolean")

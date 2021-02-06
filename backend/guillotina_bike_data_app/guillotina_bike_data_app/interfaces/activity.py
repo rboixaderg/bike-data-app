@@ -23,8 +23,8 @@ class IActivity(IFolder):
 
     elapsed_time = schema.Int(title="Elapsed time")
 
-    metadata("moving_time")
-    index_field("moving_time", type="int")
+    metadata("total_elevation_gain")
+    index_field("total_elevation_gain", type="int")
     total_elevation_gain = schema.Int(title="Total elevation gain")
 
     metadata("type_activity")
@@ -70,6 +70,14 @@ class IActivity(IFolder):
     metadata("max_watts")
     index_field("max_watts", type="float")
     max_watts = schema.Float(title="Max watts")
+
+    metadata("average_heartrate")
+    index_field("average_heartrate", type="float")
+    average_heartrate = schema.Float(title="Average heartrate")
+
+    metadata("max_heartrate")
+    index_field("max_heartrate", type="int")
+    max_heartrate = schema.Int(title="Max heartrate")
 
     elev_high = schema.Float(title="Elev high")
     elev_low = schema.Float(title="Elev low")
