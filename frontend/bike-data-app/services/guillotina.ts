@@ -1,6 +1,8 @@
 import { API_GUILLOTINA_URL } from 'helpers/constants'
 import { Auth } from '@guillotinaweb/react-gmi'
 import { getClient } from '@guillotinaweb/react-gmi'
+import { IndexSignature } from 'types/types'
+import { checkError as checkErrorFn } from './error'
 
 export const auth = new Auth(process.env.NEXT_PUBLIC_GUILLOTINA_URL)
 export const client = getClient(process.env.NEXT_PUBLIC_GUILLOTINA_URL, auth)
@@ -8,20 +10,33 @@ export const client = getClient(process.env.NEXT_PUBLIC_GUILLOTINA_URL, auth)
 interface IfetchGuillotina {
   path?: string
   method?: string
-  data?: { [key: string]: any }
-  headers?: { [key: string]: any }
+  data?: IndexSignature
+  headers?: IndexSignature
+  checkError?: boolean
 }
 
-export const fetchGuillotina = async ({ path, method, data, headers }: IfetchGuillotina) => {
-  const res = await fetch(`${API_GUILLOTINA_URL}${path}`, {
+export const fetchGuillotina = async ({
+  path,
+  method,
+  data,
+  headers,
+  checkError,
+}: IfetchGuillotina) => {
+  const res = await fetch(`${API_GUILLOTINA_URL}${path ?? ''}`, {
     headers: headers ?? {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       Authorization: `Basic cm9vdDpyb290`,
     },
-    method: method || 'get',
-    body: JSON.stringify(data || {}),
+    method: method ?? 'get',
+    body: data ? JSON.stringify(data) : null,
   })
+  if (checkError) {
+    const error = await checkErrorFn(res)
+    if (error) {
+      throw error
+    }
+  }
   return res.json()
 }
 

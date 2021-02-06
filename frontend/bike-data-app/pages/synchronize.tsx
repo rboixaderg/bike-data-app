@@ -8,27 +8,19 @@ import { TableStravaActivitiesComponent } from '../components/StravaActivities/T
 import { Loading } from '@guillotinaweb/react-gmi'
 import { API_STRAVA_URL } from 'helpers/constants'
 import { useGetGuillotinaObject } from 'services/useGetGuillotinaObject'
-
-const fetchWithToken = async (url: string, token: string, timestap: number, page: number) => {
-  const res = await fetch(`${url}?before=${timestap}&after=0&page=${page ?? 1}&per_page=200`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-  return res.json()
-}
+import { stravaFetchWithToken } from 'services/strava'
 
 export default function Synchronize() {
   const [session, loading] = useSession()
   const router = useRouter()
   const { page } = router.query
 
-  const { data: dataStrava } = useSWR(
+  const { data: dataStrava, error } = useSWR(
     session?.accessToken
       ? [`${API_STRAVA_URL}athlete/activities`, session.accessToken, page]
       : null,
     (url) =>
-      fetchWithToken(
+      stravaFetchWithToken(
         url,
         session.accessToken,
         new Date().getTime() / 1000,
@@ -38,7 +30,7 @@ export default function Synchronize() {
 
   const { dataGuillotina, mutate } = useGetGuillotinaObject(
     dataStrava
-      ? `@search?type_name=Activity&b_size=200&id__in=${dataStrava
+      ? `@search?type_name=Activity&b_size=200&id__in=${(dataStrava || [])
           .map((activity) => activity.id)
           .join(',')}`
       : null
@@ -51,6 +43,7 @@ export default function Synchronize() {
     return dataStrava
   }, [dataStrava])
 
+  console.log(error)
   return (
     <>
       <Head>
@@ -107,8 +100,8 @@ export default function Synchronize() {
             </button>
           )}
         </div>
-
-        {!dataStrava && <Loading />}
+        {error && <div className="box">{error?.info?.message}</div>}
+        {!dataStrava && !error && <Loading />}
 
         <TableStravaActivitiesComponent
           dataToRender={dataToRender ?? []}

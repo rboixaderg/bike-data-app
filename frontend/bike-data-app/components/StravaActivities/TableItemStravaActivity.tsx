@@ -6,7 +6,7 @@ export const TableItemStravaActivity = ({ activity, dataGuillotina, mutate }) =>
   const [session, loading] = useSession()
   const [loadingSave, setLoadingSave] = useState(false)
   return (
-    <tr key={`activity_strava_id_${activity.id}`}>
+    <tr>
       <td>
         <div>{activity.type}</div>
       </td>
