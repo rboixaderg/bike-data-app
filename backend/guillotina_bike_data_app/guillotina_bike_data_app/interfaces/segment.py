@@ -1,12 +1,25 @@
 from guillotina.interfaces import IItem
 from guillotina import schema
+from guillotina.directives import index_field, metadata
 
 
 class ISegment(IItem):
+    metadata("id_strava")
+    index_field("id_strava", type="text")
     id_strava = schema.TextLine(title="Strava id")
+
+    metadata("name")
+    index_field("name", type="text")
     name = schema.TextLine(title="Name")
+
+    metadata("type_activity")
+    index_field("type_activity", type="text")
     type_activity = schema.TextLine(title="Type")  # Pass to vocabulary
+
+    metadata("distance")
+    index_field("distance", type="float")
     distance = schema.Int(title="Distance")
+
     average_grade = schema.Float(title="Average grade")
     maximum_grade = schema.Float(title="Maximum grade")
     elevation_high = schema.Float(title="Elevation high")
