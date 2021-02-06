@@ -5,27 +5,9 @@ import Menu from '../components/Menu'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { TableStravaActivitiesComponent } from '../components/StravaActivities/TableStravaActivities'
-import { saveActivityInGuillotina } from '../services/guillotina'
 import { Loading } from '@guillotinaweb/react-gmi'
-
-// const fetcher = async (input: RequestInfo, init: RequestInit) => {
-//   const res = await fetch(input, init);
-//   return res.json();
-// };
-
-const fetchSearchGuillotina = async (url, dataStrava) => {
-  const res = await fetch(
-    `${url}?type_name=Activity&b_size=200&id__in=${dataStrava
-      .map((activity) => activity.id)
-      .join(',')}`,
-    {
-      headers: {
-        Authorization: `Basic cm9vdDpyb290`,
-      },
-    }
-  )
-  return res.json()
-}
+import { API_STRAVA_URL } from 'helpers/constants'
+import { useGetGuillotinaObject } from 'services/useGetGuillotinaObject'
 
 const fetchWithToken = async (url: string, token: string, timestap: number, page: number) => {
   const res = await fetch(`${url}?before=${timestap}&after=0&page=${page ?? 1}&per_page=200`, {
@@ -43,7 +25,7 @@ export default function Synchronize() {
 
   const { data: dataStrava } = useSWR(
     session?.accessToken
-      ? ['https://www.strava.com/api/v3/athlete/activities', session.accessToken, page]
+      ? [`${API_STRAVA_URL}athlete/activities`, session.accessToken, page]
       : null,
     (url) =>
       fetchWithToken(
@@ -54,11 +36,12 @@ export default function Synchronize() {
       )
   )
 
-  const { data: dataGuillotina, mutate } = useSWR(
-    session?.accessToken && dataStrava
-      ? ['http://localhost:8080/db/container/@search', dataStrava]
-      : null,
-    (url) => fetchSearchGuillotina(url, dataStrava)
+  const { dataGuillotina, mutate } = useGetGuillotinaObject(
+    dataStrava
+      ? `@search?type_name=Activity&b_size=200&id__in=${dataStrava
+          .map((activity) => activity.id)
+          .join(',')}`
+      : null
   )
 
   const dataToRender = useMemo(() => {

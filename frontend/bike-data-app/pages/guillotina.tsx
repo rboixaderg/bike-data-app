@@ -33,7 +33,7 @@ export default function Guillotina() {
   const onLogout = () => setLogged(false)
 
   ;(auth as any).onLogout = onLogout
-  console.log(process.env.NEXT_PUBLIC_GUILLOTINA_URL)
+
   return (
     <>
       <Head>
