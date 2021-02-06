@@ -33,7 +33,7 @@ export const TableItemStravaActivity = ({ activity, dataGuillotina, mutate }) =>
               }}
               className={`button ${loading || loadingSave ? 'is-loading' : ''}`}
             >
-              Saved
+              Synchronize
             </button>
           )}
       </td>

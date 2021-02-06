@@ -68,18 +68,6 @@ export default function Synchronize() {
     return dataStrava
   }, [dataStrava])
 
-  const saveAllInGuillotina = () => {
-    ;(dataStrava ?? []).map((activity) => {
-      if (
-        !dataGuillotina.items.find(
-          (activityGuillo) => activityGuillo.id === activity['id'].toString()
-        )
-      ) {
-        saveActivityInGuillotina(activity, session.accessToken)
-      }
-    })
-  }
-
   return (
     <>
       <Head>
@@ -105,14 +93,40 @@ export default function Synchronize() {
             Sign out strava
           </button>
         )}
-
-        <button className="button ml-5" onClick={() => saveAllInGuillotina()}>
-          Sincronize all activities to guillotina
-        </button>
       </div>
 
       <main className="container">
+        <div className="is-flex is-justify-content-space-between mb-4">
+          {parseInt(page as string, 0) > 1 && (
+            <button
+              className="button"
+              onClick={() =>
+                router.push({
+                  pathname: '/synchronize',
+                  query: { page: parseInt(page as string, 0) - 1 },
+                })
+              }
+            >
+              Go to Previous Page
+            </button>
+          )}
+          {dataStrava && dataStrava.length === 200 && (
+            <button
+              className="button"
+              onClick={() =>
+                router.push({
+                  pathname: '/synchronize',
+                  query: { page: parseInt((page as string) ?? '1', 0) + 1 },
+                })
+              }
+            >
+              Go to Next Page
+            </button>
+          )}
+        </div>
+
         {!dataStrava && <Loading />}
+
         <TableStravaActivitiesComponent
           dataToRender={dataToRender ?? []}
           dataGuillotina={dataGuillotina}
