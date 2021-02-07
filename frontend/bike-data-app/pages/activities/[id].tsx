@@ -50,15 +50,15 @@ export default function ItemActivityPage() {
                 <RenderInfo label="Time" text={formattedDateFromSeconds(activity.moving_time)} />
                 <RenderInfo label="Type" text={activity.type_activity ?? '---'} />
                 <RenderInfo label="Distance" text={formattedDistance(activity.distance)} />
-                <RenderInfo
-                  label="Avg Watts"
-                  text={<RenderBoolean value={activity.device_watts} />}
-                />
+                <RenderInfo label="Avg Watts" text={activity.average_watts} />
                 <RenderInfo
                   label="Weighted Watts"
                   text={activity.weighted_average_watts ?? '---'}
                 />
-                <RenderInfo label="Device Watts" text={activity.items_total} />
+                <RenderInfo
+                  label="Device Watts"
+                  text={<RenderBoolean value={activity.device_watts} />}
+                />
                 <RenderInfo
                   label="Kilojoules"
                   text={activity.kilojoules ? `${activity.kilojoules} Kj` : '---'}
