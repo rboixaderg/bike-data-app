@@ -17,3 +17,7 @@ export const formattedDistance = (value) => {
   }
   return '0 km'
 }
+
+export const formattedSpeed = (value) => {
+  return `${new Intl.NumberFormat().format(value * 3.6)} km/h`
+}

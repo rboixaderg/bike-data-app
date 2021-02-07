@@ -1,18 +1,12 @@
 import { Loading, Pagination } from '@guillotinaweb/react-gmi'
 import Menu from 'components/Menu'
+import { RenderInfo } from 'components/RenderInfo'
 import { TableSegmentEfforts } from 'components/SegmentEfforts/TableSegmentEfforts'
 import { GUILLOTINA_PAGE_SIZE } from 'helpers/constants'
 import { formattedDistance } from 'helpers/utils'
 import { useRouter } from 'next/router'
 import { useGetGuillotinaObject } from 'services/useGetGuillotinaObject'
 
-const RenderInfo = ({ text, label }) => {
-  return (
-    <div>
-      <strong>{label}:</strong>&nbsp;&nbsp;<span>{text}</span>
-    </div>
-  )
-}
 export default function ItemSegmentPage() {
   const router = useRouter()
   const { id, page } = router.query

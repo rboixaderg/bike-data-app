@@ -61,6 +61,7 @@ export const saveActivityInGuillotina = async (activity, accessToken) => {
         id: activityToSend['id'].toString(),
         '@type': 'Activity',
         title: activityToSend.name,
+        type_activity: activityToSend.type,
       },
     })
     const segmentEfforts = dataActivityStrava.segment_efforts ?? []
