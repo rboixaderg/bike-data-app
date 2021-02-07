@@ -29,7 +29,12 @@ class ISegmentEffort(IItem):
     index_field("moving_time", type="int")
     moving_time = schema.Int(title="Moving time")
 
+    metadata("start_date")
+    index_field("start_date", type="date")
     start_date = schema.Datetime(title="Start date")
+
+    metadata("start_date_local")
+    index_field("start_date_local", type="date")
     start_date_local = schema.Datetime(title="Start date local")
 
     metadata("distance")
