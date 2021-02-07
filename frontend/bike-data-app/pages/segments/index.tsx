@@ -42,7 +42,7 @@ export default function Segments() {
             pager={GUILLOTINA_PAGE_SIZE}
           />
         </div>
-
+        {!dataGuillotina && <div>No data</div>}
         {<TableSegment data={dataGuillotina?.items} />}
       </main>
     </>

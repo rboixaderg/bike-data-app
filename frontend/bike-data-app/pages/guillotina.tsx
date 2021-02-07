@@ -6,6 +6,9 @@ import '../node_modules/@guillotinaweb/react-gmi/dist/css/style.css'
 import Menu from '../components/Menu'
 import { auth } from '../services/guillotina'
 
+// Fixed build -- Type error: JSX element class does not support attributes because it does not have a 'props' property.
+const LoginComponent = (Login as unknown) as React.ElementType
+
 const registry = {
   // to register views around guillotina objects paths
   paths: {},
@@ -52,7 +55,7 @@ export default function Guillotina() {
         {!isLogged && (
           <div className="columns is-centered">
             <div className="columns is-half">
-              <Login onLogin={onLogin} auth={auth} />
+              <LoginComponent onLogin={onLogin} auth={auth} />
             </div>
           </div>
         )}
