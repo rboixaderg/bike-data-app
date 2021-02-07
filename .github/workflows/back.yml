@@ -26,7 +26,7 @@ jobs:
           pip install isort==5.7.0
       - name: Run pre-checks
         run: |
-          flake8 backend/guillotina_bike_data_app
+          flake8 backend/guillotina_bike_data_app --config=backend/guillotina_bike_data_app/setup.cfg
           isort -c -rc backend/guillotina_bike_data_app/
   # Job to run tests
   tests:
