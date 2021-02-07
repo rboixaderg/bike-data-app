@@ -5,6 +5,9 @@ El backend està fet amb [Guillotina](https://github.com/plone/guillotina) i l'a
 
 Es necessari tenir creada una aplicació de strava per poder atacar a la seva api (https://developers.strava.com/)
 
+### Limitació:
+Si es crea un nou tram a strava, s'haurà de tornar a sincronitzar totes les activitats, per ara no hi ha aquesta opció feta.
+
 ## Tecnologia necessaria:
 
 - NodeJs
@@ -96,3 +99,10 @@ source envname/bin/activate
 cd back
 pytest guillotina_iskra/guillotina_iskra/
 ```
+
+
+## TODO
+
+- Front tests, testing library i Cypress
+- Crear github actions per corre els tests i analitzadors de codi
+- Poder actualitzar l'informació d'una activitat ja creada a guillotina
