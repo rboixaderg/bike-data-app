@@ -1,4 +1,4 @@
-name: CI
+name: frontend_format
 on: [push, pull_request]
 jobs:
   build:
@@ -19,6 +19,6 @@ jobs:
           npm install -g yarn
       - name: check format
         run: |
-          cd frontend/bike-data.app
+          working-directory: ./frontend/bike-data.app
           yarn install --frozen-lockfile
           yarn format:check
