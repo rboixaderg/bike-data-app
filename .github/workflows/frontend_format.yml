@@ -18,7 +18,7 @@ jobs:
         run: |
           npm install -g yarn
       - name: check format
-        working-directory: ./frontend/bike-data.app
+        working-directory: ./frontend/bike-data-app
         run: |
           yarn install --frozen-lockfile
           yarn format:check
