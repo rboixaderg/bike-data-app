@@ -1,6 +1,6 @@
-from guillotina.interfaces import IItem
 from guillotina import schema
 from guillotina.directives import index_field, metadata
+from guillotina.interfaces import IItem
 
 
 class ISegment(IItem):

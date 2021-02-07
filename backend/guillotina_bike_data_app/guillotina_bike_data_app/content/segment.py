@@ -1,5 +1,5 @@
-from guillotina import configure
-from guillotina import content
+from guillotina import configure, content
+
 from guillotina_bike_data_app.interfaces.segment import ISegment
 
 

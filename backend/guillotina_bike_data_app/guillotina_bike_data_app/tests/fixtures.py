@@ -1,16 +1,14 @@
+import json
+import os
+
+import pytest
 from guillotina import testing
 from guillotina.tests.fixtures import ContainerRequesterAsyncContextManager
-
+from pytest_docker_fixtures import images
 
 from guillotina_bike_data_app.tests.activity_json import activity
-from guillotina_bike_data_app.tests.segment_json import segment
 from guillotina_bike_data_app.tests.segment_effort_json import segment_effort
-
-import os
-import json
-import pytest
-
-from pytest_docker_fixtures import images
+from guillotina_bike_data_app.tests.segment_json import segment
 
 NOT_POSTGRES = os.environ.get("DATABASE", "DUMMY") in ("cockroachdb", "DUMMY")
 

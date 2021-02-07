@@ -1,7 +1,7 @@
 
 
-from guillotina.interfaces import IItem
 from guillotina import schema
+from guillotina.interfaces import IItem
 
 
 class ILap(IItem):

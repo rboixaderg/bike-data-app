@@ -1,5 +1,7 @@
 import json
+
 import pytest
+
 from guillotina_bike_data_app.tests.lap_json import lap
 
 pytestmark = pytest.mark.asyncio

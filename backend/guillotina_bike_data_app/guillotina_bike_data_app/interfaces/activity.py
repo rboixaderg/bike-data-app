@@ -1,6 +1,6 @@
-from guillotina.interfaces import IFolder
 from guillotina import schema
 from guillotina.directives import index_field, metadata
+from guillotina.interfaces import IFolder
 
 
 class IActivity(IFolder):
