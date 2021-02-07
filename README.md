@@ -32,11 +32,11 @@ Primer necesitem tenir una base de dades postreSQL, ho farem a través de docker
 
 ```
 docker run -d --rm \
-  -e POSTGRES_DB=guillotina \
+  -e POSTGRES_DB=guillotina_bike_app \
   -e POSTGRES_USER=guillotina \
   -e POSTGRES_PASSWORD=guillotina \
   -d -p 127.0.0.1:5432:5432 \
-  --name postgres_db_manage_projects -v pgdata:/var/lib/postgresql/data postgres:9.6
+  --name postgres_db_bike_app -v pgdata:/var/lib/postgresql/data postgres:9.6
 ```
 
 Arrancar guillotina per primera vegada, utilitzarem un entorn virtual, crearem el container base.
