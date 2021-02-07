@@ -23,7 +23,6 @@ jobs:
         working-directory: ./frontend/bike-data-app
         run: |
           yarn format:check
-          yarn test
       - name: tests
         working-directory: ./frontend/bike-data-app
         run: |
