@@ -1,0 +1,66 @@
+name: guillotina
+
+on: [push]
+
+jobs:
+
+  # Job to run pre-checks
+  pre-checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8]
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package
+        run: |
+          pip install flake8==3.7.7
+          pip install isort==5.7.0
+      - name: Run pre-checks
+        run: |
+          flake8 backend/guillotina_bike_data_app
+          isort -c -rc backend/guillotina_bike_data_app/
+  # Job to run tests
+  tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8]
+        database: ["DUMMY", "postgres"]
+        db_schema: ["custom", "public"]
+        exclude:
+          - database: "DUMMY"
+            db_schema: "custom"
+
+    # Set environment variables
+    env:
+      DATABASE: ${{ matrix.database }}
+      DB_SCHEMA: ${{ matrix.db_schema }}
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install the package
+        run: |
+          pip install -r backend/requirements.txt
+          pip install -r backend/requirements-test.txt
+
+      - name: Run tests
+        run: |
+          pytest backend/guillotina_bike_data_app/guillotina_bike_data_app/tests
+
