@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { TableStravaActivitiesComponent } from '../components/StravaActivities/TableStravaActivities'
 import { Loading } from '@guillotinaweb/react-gmi'
-import { API_STRAVA_URL } from 'helpers/constants'
+import { API_STRAVA_URL, STRAVA_PAGE_SIZE } from 'helpers/constants'
 import { useGetGuillotinaObject } from 'services/useGetGuillotinaObject'
 import { stravaFetchWithToken } from 'services/strava'
 
@@ -30,7 +30,7 @@ export default function Synchronize() {
 
   const { dataGuillotina, mutate } = useGetGuillotinaObject(
     dataStrava
-      ? `@search?type_name=Activity&b_size=200&id__in=${(dataStrava || [])
+      ? `@search?type_name=Activity&b_size=${STRAVA_PAGE_SIZE}&id__in=${(dataStrava || [])
           .map((activity) => activity.id)
           .join(',')}`
       : null
@@ -86,7 +86,7 @@ export default function Synchronize() {
               Go to Previous Page
             </button>
           )}
-          {dataStrava && dataStrava.length === 200 && (
+          {dataStrava && dataStrava.length === STRAVA_PAGE_SIZE && (
             <button
               className="button"
               onClick={() =>

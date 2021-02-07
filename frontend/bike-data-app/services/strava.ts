@@ -1,4 +1,4 @@
-import { CustomError } from 'types/types'
+import { STRAVA_PAGE_SIZE } from 'helpers/constants'
 import { checkError } from './error'
 
 export const stravaFetchWithToken = async (
@@ -7,11 +7,14 @@ export const stravaFetchWithToken = async (
   timestap: number,
   page: number
 ) => {
-  const response = await fetch(`${url}?before=${timestap}&after=0&page=${page ?? 1}&per_page=200`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+  const response = await fetch(
+    `${url}?before=${timestap}&after=0&page=${page ?? 1}&per_page=${STRAVA_PAGE_SIZE}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
   const error = await checkError(response)
   if (error) {
     throw error
