@@ -1,8 +1,6 @@
 import Head from 'next/head'
 import Menu from '../components/Menu'
 
-// Get all activities https://www.strava.com/api/v3/athlete/activities?before=1611871426&after=0&page=1&per_page=200
-
 export default function Home() {
   return (
     <>

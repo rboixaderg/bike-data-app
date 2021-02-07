@@ -4,7 +4,6 @@ import { Login } from '@guillotinaweb/react-gmi'
 
 import '../node_modules/@guillotinaweb/react-gmi/dist/css/style.css'
 import Menu from '../components/Menu'
-import Head from 'next/head'
 import { auth } from '../services/guillotina'
 
 const registry = {
@@ -36,9 +35,6 @@ export default function Guillotina() {
 
   return (
     <>
-      <Head>
-        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-      </Head>
       <Menu />
       <section className="hero is-primary mb-3">
         <div className="container hero-body">
