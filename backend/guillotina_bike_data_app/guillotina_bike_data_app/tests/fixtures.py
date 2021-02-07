@@ -10,6 +10,7 @@ from guillotina_bike_data_app.tests.activity_json import activity
 from guillotina_bike_data_app.tests.segment_effort_json import segment_effort
 from guillotina_bike_data_app.tests.segment_json import segment
 
+
 NOT_POSTGRES = os.environ.get("DATABASE", "DUMMY") in ("cockroachdb", "DUMMY")
 
 
