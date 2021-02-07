@@ -79,7 +79,7 @@ NEXT_PUBLIC_GUILLOTINA_PAGE_SIZE="100"
 Per arrancar el frontal per primera vegada farem:
 
 ```
-cd frontend
+cd frontend/bike-data-app
 yarn
 yarn start
 ```
