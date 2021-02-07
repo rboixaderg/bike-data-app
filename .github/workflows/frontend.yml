@@ -15,11 +15,17 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
+        working-directory: ./frontend/bike-data-app
         run: |
           npm install -g yarn
+          yarn install --frozen-lockfile
       - name: check format
         working-directory: ./frontend/bike-data-app
         run: |
-          yarn install --frozen-lockfile
           yarn format:check
+          yarn test
+      - name: tests
+        working-directory: ./frontend/bike-data-app
+        run: |
+          yarn build
           yarn test
