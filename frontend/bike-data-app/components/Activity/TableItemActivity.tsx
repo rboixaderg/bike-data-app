@@ -29,6 +29,14 @@ export const TableItemActivity = ({ activity }) => {
         >
           Detail
         </button>
+        <a
+          rel="noreferrer"
+          className="button"
+          href={`https://www.strava.com/activities/${activity['@name']}`}
+          target="_blank"
+        >
+          Strava
+        </a>
       </td>
     </tr>
   )
