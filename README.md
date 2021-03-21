@@ -47,19 +47,19 @@ Arrancar guillotina per primera vegada, utilitzarem un entorn virtual, crearem e
 ```
 python3.7 -m venv envname
 source envname/bin/activate
-cd back
+cd backend
 pip install -r requirements.txt
 pip install -r requirements-test.txt
-pip install -e guillotina_iskra
-guillotina serve -c guillotina_iskra/config.yaml
+pip install -e guillotina_bike_data_app
+guillotina serve -c guillotina_bike_data_app/config.yaml
 curl -X POST --user root:root http://127.0.0.1:8080/db -d '{"@type": "Container", "id": "container", "title": "Contenidor projectes"}'
 ```
 
 Un cop arrancada per primera vegada ja nomès s'haurà d'activar l'entorn virtual creat i arrancar el servidor
 ```
 source envname/bin/activate
-cd back
-guillotina serve -c guillotina_iskra/config.yaml
+cd backend
+guillotina serve -c guillotina_bike_data_app/config.yaml
 ```
 
 
