@@ -9,7 +9,7 @@ import { useGetGuillotinaObject } from 'services/useGetGuillotinaObject'
 
 export default function ItemSegmentPage() {
   const router = useRouter()
-  const { id, page } = router.query
+  const { id, page, sort } = router.query
   const formattedPage = parseInt((page as string) ?? '0', 0)
   const { dataGuillotina: segment, isLoading: loadingSegment } = useGetGuillotinaObject(id)
   const {
@@ -19,7 +19,7 @@ export default function ItemSegmentPage() {
     id
       ? `@search?type_name=SegmentEffort&b_size=${GUILLOTINA_PAGE_SIZE}&b_start=${
           formattedPage * GUILLOTINA_PAGE_SIZE
-        }&segment=${id}&_sort_des=start_date`
+        }&segment=${id}&_sort_des=${sort ?? 'start_date'}`
       : null
   )
 
@@ -61,8 +61,30 @@ export default function ItemSegmentPage() {
                 pager={GUILLOTINA_PAGE_SIZE}
               />
             </div>
-
-            <TableSegmentEfforts data={segmentEfforts.items} />
+            <div className="select">
+              <select
+                value={sort}
+                onChange={(ev) => {
+                  if (ev.target.value) {
+                    router.push({
+                      pathname: '/segments/[id]',
+                      query: { id: id, page: page, sort: ev.target.value },
+                    })
+                  } else {
+                    router.push({
+                      pathname: '/segments/[id]',
+                      query: { id: id, page: page },
+                    })
+                  }
+                }}
+              >
+                <option value="all">---</option>
+                <option value="average_watts">AVG Watts</option>
+                <option value="moving_time">Time</option>
+                <option value="start_date">Date</option>
+              </select>
+            </div>
+            <TableSegmentEfforts data={segmentEfforts.items} from="segment" />
           </>
         )}
       </main>

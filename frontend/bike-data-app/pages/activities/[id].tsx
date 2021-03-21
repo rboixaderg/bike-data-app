@@ -64,6 +64,14 @@ export default function ItemActivityPage() {
                   text={activity.kilojoules ? `${activity.kilojoules} Kj` : '---'}
                 />
                 <RenderInfo label="Total Segments efforts" text={segmentEfforts.items_total} />
+                <a
+                  rel="noreferrer"
+                  className="button"
+                  href={`https://www.strava.com/activities/${activity['@name']}`}
+                  target="_blank"
+                >
+                  Strava
+                </a>
               </div>
             </div>
             <div className="mt-3 mb-3">
@@ -76,7 +84,7 @@ export default function ItemActivityPage() {
               />
             </div>
 
-            <TableSegmentEfforts data={segmentEfforts.items} />
+            <TableSegmentEfforts data={segmentEfforts.items} from="activity" />
           </>
         )}
       </main>
