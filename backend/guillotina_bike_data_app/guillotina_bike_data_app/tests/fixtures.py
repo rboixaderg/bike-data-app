@@ -25,7 +25,7 @@ def base_settings_configurator(settings):
     settings['load_utilities'] = {
         "catalog": {
             "provides": "guillotina.interfaces.ICatalogUtility",
-            "factory": "guillotina.contrib.catalog.pg.PGSearchUtility",
+            "factory": "guillotina.contrib.catalog.pg.utility.PGSearchUtility",
         }
     }
 
