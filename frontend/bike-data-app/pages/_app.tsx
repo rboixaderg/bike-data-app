@@ -1,11 +1,11 @@
 import { Provider } from 'next-auth/client'
-import { ConfigInterface, SWRConfig } from 'swr'
-import { fetcherFn, revalidateType, RevalidateOptionInterface } from 'swr/dist/types'
+import { SWRConfiguration, SWRConfig } from 'swr'
+import { Fetcher, Revalidator, RevalidatorOptions } from 'swr/dist/types'
 
 import { ClientProvider } from '@guillotinaweb/react-gmi'
 import { client } from '../services/guillotina'
 
-import '@guillotinaweb/react-gmi/dist/css/style.css'
+import 'node_modules/@guillotinaweb/react-gmi/dist/css/style.css'
 
 export default function App({ Component, pageProps }) {
   return (
@@ -14,9 +14,9 @@ export default function App({ Component, pageProps }) {
         onErrorRetry: (
           _error: Error,
           _key: string,
-          _option: ConfigInterface<any, any, fetcherFn<any>>,
-          revalidate: revalidateType,
-          { retryCount }: RevalidateOptionInterface
+          _option: SWRConfiguration<any, any, Fetcher<any>>,
+          revalidate: Revalidator,
+          { retryCount }: RevalidatorOptions
         ) => {
           if (retryCount !== undefined && retryCount >= 1) return
           // retry after 5 seconds

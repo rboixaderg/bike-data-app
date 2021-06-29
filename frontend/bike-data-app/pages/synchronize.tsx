@@ -22,7 +22,7 @@ export default function Synchronize() {
     (url) =>
       stravaFetchWithToken(
         url,
-        session.accessToken,
+        session.accessToken as string,
         new Date().getTime() / 1000,
         parseInt((page as string) ?? '1', 0)
       )

@@ -2,9 +2,9 @@ import React from 'react'
 import { Guillotina as GuillotinaComponent } from '@guillotinaweb/react-gmi'
 import { Login } from '@guillotinaweb/react-gmi'
 
-import '../node_modules/@guillotinaweb/react-gmi/dist/css/style.css'
-import Menu from '../components/Menu'
-import { auth } from '../services/guillotina'
+import 'node_modules/@guillotinaweb/react-gmi/dist/css/style.css'
+import Menu from 'components/Menu'
+import { auth } from 'services/guillotina'
 
 // Fixed build -- Type error: JSX element class does not support attributes because it does not have a 'props' property.
 const LoginComponent = (Login as unknown) as React.ElementType

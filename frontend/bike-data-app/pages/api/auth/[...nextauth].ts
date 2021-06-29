@@ -1,26 +1,10 @@
 import NextAuth from 'next-auth'
-import Providers, { Providers as ProvidersAct } from 'next-auth/providers'
-
-interface GenericObject {
-  [key: string]: any
-}
-
-type Strava = (options: ProviderStravaOptions) => GenericObject
-
-interface ProviderStravaOptions extends GenericObject {
-  name?: string
-  clientId: string
-  clientSecret: string
-}
-
-interface ProvidersWithStrava extends ProvidersAct {
-  Strava: Strava
-}
+import Providers from 'next-auth/providers'
 
 const options = {
   // Configure one or more authentication providers
   providers: [
-    (Providers as ProvidersWithStrava).Strava({
+    Providers.Strava({
       clientId: process.env.STRAVA_ID,
       clientSecret: process.env.STRAVA_SECRET,
       scope: 'activity:read_all',
