@@ -42,12 +42,13 @@ docker run -d --rm \
   --name postgres_db_bike_app -v pgdata:/var/lib/postgresql/data postgres:9.6
 ```
 
-Arrancar guillotina per primera vegada, utilitzarem un entorn virtual, crearem el container base.
+Arrancar guillotina per primera vegada, utilitzarem un entorn virtual ( pyenv i virtualenv ), crearem el container base.
 
 ```
-python3.7 -m venv envname
-source envname/bin/activate
 cd backend
+pyenv virtualenv 3.8.5 nomVirtualenv
+pyenv activate nomVirtualenv 
+pyenv local nomVirtualenv
 pip install -r requirements.txt
 pip install -r requirements-test.txt
 pip install -e guillotina_bike_data_app
@@ -55,10 +56,11 @@ guillotina serve -c guillotina_bike_data_app/config.yaml
 curl -X POST --user root:root http://127.0.0.1:8080/db -d '{"@type": "Container", "id": "container", "title": "Contenidor projectes"}'
 ```
 
-Un cop arrancada per primera vegada ja nomès s'haurà d'activar l'entorn virtual creat i arrancar el servidor
+Un cop arrancada per primera vegada ja nomès s'haurà d'activar l'entorn virtual creat i arrancar el servidor.
 ```
-source envname/bin/activate
+
 cd backend
+pyenv activate nomVirtualenv
 guillotina serve -c guillotina_bike_data_app/config.yaml
 ```
 
@@ -83,8 +85,8 @@ Per arrancar el frontal per primera vegada farem:
 
 ```
 cd frontend/bike-data-app
-yarn
-yarn start
+npm i
+npm run dev
 ```
 
 Tot seguit anirem a [http://localhost:3000](http://localhost:3000)
