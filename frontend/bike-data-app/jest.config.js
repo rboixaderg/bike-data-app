@@ -7,4 +7,5 @@ module.exports = {
   },
   modulePaths: ['<rootDir>'],
   moduleDirectories: ['node_modules', 'pages', 'components', 'services', 'types', 'helpers'],
+  globalSetup: '<rootDir>/tests/setupEnv.js',
 }

@@ -9,7 +9,7 @@
     "format": "prettier --check '*/**/*.{ts,tsx}' --write",
     "format:check": "prettier --check '*/**/*.{ts,tsx}'",
     "lint": "eslint '*/**/*.{ts,tsx}' --fix",
-    "test": "jest"
+    "test": "NODE_ENV=test jest"
   },
   "dependencies": {
     "@guillotinaweb/react-gmi": "0.15.1",
