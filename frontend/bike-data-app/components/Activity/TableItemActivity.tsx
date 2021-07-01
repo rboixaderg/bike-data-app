@@ -10,11 +10,13 @@ export const TableItemActivity = ({ activity }) => {
       <td>{formattedDateFromSeconds(activity.moving_time)}</td>
       <td>{activity.type_activity}</td>
       <td>{formattedDistance(activity.distance)}</td>
+      <td>{activity.average_heartrate ? `${activity.average_heartrate} bpm` : '---'}</td>
       <td>
         {activity.average_watts
           ? `${activity.average_watts} / ${activity.weighted_average_watts ?? '--'} W`
           : '---'}
       </td>
+      <td>{activity.max_watts ? `${activity.max_watts} W` : '---'}</td>
       <td>
         <RenderBoolean value={activity.device_watts} />
       </td>

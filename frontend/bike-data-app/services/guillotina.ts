@@ -83,13 +83,13 @@ export const saveActivityInGuillotina = async (activity, accessToken) => {
       delete segmentEfforToSave['segment']
       delete segmentEfforToSave['activity']
       delete segmentEfforToSave['athlete']
+      delete segmentEfforToSave['id']
 
       await fetchGuillotina({
         method: 'post',
         data: {
-          ...segment_effort,
+          ...segmentEfforToSave,
           id_strava: segment_effort['id'].toString(),
-          id: segment_effort['id'].toString(),
           '@type': 'SegmentEffort',
           title: segment_effort.name,
           segment: segment_effort.segment['id'].toString(),
