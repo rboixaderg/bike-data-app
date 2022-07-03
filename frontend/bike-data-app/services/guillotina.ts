@@ -5,7 +5,7 @@ import { IndexSignature } from 'types/types'
 import { checkError as checkErrorFn } from './error'
 
 export const auth = new Auth(process.env.NEXT_PUBLIC_GUILLOTINA_URL)
-export const client = getClient(process.env.NEXT_PUBLIC_GUILLOTINA_URL, auth)
+export const client = getClient(process.env.NEXT_PUBLIC_GUILLOTINA_URL, '/', auth)
 
 interface IfetchGuillotina {
   path?: string

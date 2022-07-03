@@ -55,7 +55,7 @@ export default function Guillotina() {
         {!isLogged && (
           <div className="columns is-centered">
             <div className="columns is-half">
-              <LoginComponent onLogin={onLogin} auth={auth} />
+              <LoginComponent onLogin={onLogin} auth={auth} currentSchema="/" />
             </div>
           </div>
         )}

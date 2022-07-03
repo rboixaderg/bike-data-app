@@ -6,7 +6,7 @@ applications:
 databases:
   db:
     storage: postgresql
-    dsn: postgres://postgres:postgres@localhost:5432/guillotina_bike_app
+    dsn: postgres://postgres:postgres@localhost:5431/guillotina_bike_app
     read_only: false
 host: localhost
 port: 8080
