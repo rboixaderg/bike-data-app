@@ -1,8 +1,7 @@
 import { formattedDistance } from 'helpers/utils'
-import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 export const TableItemSegment = ({ segment }) => {
-  const router = useRouter()
   return (
     <tr>
       <td>
@@ -13,14 +12,9 @@ export const TableItemSegment = ({ segment }) => {
       </td>
       <td>
         <div>
-          <button
-            onClick={async () => {
-              router.push('/segments/[id]', `/segments/${segment['@name']}`)
-            }}
-            className="button"
-          >
-            Detail
-          </button>
+          <Link href={`/segments/${segment['@name']}`}>
+            <a className="button">Detail</a>
+          </Link>
         </div>
       </td>
     </tr>

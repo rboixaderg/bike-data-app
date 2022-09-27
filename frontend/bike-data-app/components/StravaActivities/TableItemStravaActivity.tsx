@@ -27,7 +27,7 @@ export const TableItemStravaActivity = ({ activity, dataGuillotina, mutate }) =>
             <button
               onClick={async () => {
                 setLoadingSave(true)
-                await saveActivityInGuillotina(activity, session.accessToken)
+                await saveActivityInGuillotina(activity.id, session.accessToken)
                 mutate()
                 setLoadingSave(false)
               }}

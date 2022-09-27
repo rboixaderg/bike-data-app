@@ -40,9 +40,9 @@ export const fetchGuillotina = async ({
   return res.json()
 }
 
-export const saveActivityInGuillotina = async (activity, accessToken) => {
+export const saveActivityInGuillotina = async (activityId, accessToken) => {
   const res = await fetch(
-    `https://www.strava.com/api/v3/activities/${activity.id}?include_all_efforts=true`,
+    `https://www.strava.com/api/v3/activities/${activityId}?include_all_efforts=true`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -89,6 +89,9 @@ export const saveActivityInGuillotina = async (activity, accessToken) => {
         method: 'post',
         data: {
           ...segmentEfforToSave,
+          id: `${activityToSend['id'].toString()}-${segment_effort.segment['id'].toString()}-${
+            new Date(segmentEfforToSave.start_date).getTime() / 1000
+          }`,
           id_strava: segment_effort['id'].toString(),
           '@type': 'SegmentEffort',
           title: segment_effort.name,

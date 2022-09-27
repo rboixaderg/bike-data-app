@@ -1,9 +1,8 @@
 import { RenderBoolean } from 'components/RenderBoolean'
 import { formattedDateFromSeconds, formattedDistance, formattedSpeed } from 'helpers/utils'
-import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 export const TableItemActivity = ({ activity }) => {
-  const router = useRouter()
   return (
     <tr>
       <td>{new Date(activity.start_date).toLocaleString()}</td>
@@ -23,14 +22,10 @@ export const TableItemActivity = ({ activity }) => {
       <td>{formattedSpeed(activity.average_speed)}</td>
       <td>{activity.kilojoules ? `${activity.kilojoules} Kj` : '---'}</td>
       <td>
-        <button
-          onClick={async () => {
-            router.push('/activities/[id]', `/activities/${activity['@name']}`)
-          }}
-          className="button"
-        >
-          Detail
-        </button>
+        <Link href={`/activities/${activity['@name']}`}>
+          <a className="button">Detail</a>
+        </Link>
+
         <a
           rel="noreferrer"
           className="button"

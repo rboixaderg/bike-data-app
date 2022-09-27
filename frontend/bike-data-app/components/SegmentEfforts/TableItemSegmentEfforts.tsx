@@ -1,6 +1,7 @@
 import { RenderBoolean } from 'components/RenderBoolean'
 import { formattedDateFromSeconds } from 'helpers/utils'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 export const TableItemSegmentEfforts = ({ segmentEffort, from }) => {
   const router = useRouter()
   return (
@@ -16,18 +17,15 @@ export const TableItemSegmentEfforts = ({ segmentEffort, from }) => {
       <td>{segmentEffort.average_heartrate}</td>
       <td>{segmentEffort.max_heartrate}</td>
       <td>
-        <button
-          onClick={async () => {
-            if (from === 'activity') {
-              router.push(`/segments/${segmentEffort.segment}`)
-            } else {
-              router.push(`/activities/${segmentEffort.activity}`)
-            }
-          }}
-          className="button"
+        <Link
+          href={
+            from === 'activity'
+              ? `/segments/${segmentEffort.segment}`
+              : `/activities/${segmentEffort.activity}`
+          }
         >
-          {from === 'activity' ? 'Segment detail' : 'Activity detail'}
-        </button>
+          <a className="button">{from === 'activity' ? 'Segment detail' : 'Activity detail'}</a>
+        </Link>
       </td>
     </tr>
   )

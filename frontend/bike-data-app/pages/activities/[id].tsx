@@ -7,8 +7,12 @@ import { useRouter } from 'next/router'
 import { useGetGuillotinaObject } from 'services/useGetGuillotinaObject'
 import { RenderInfo } from 'components/RenderInfo'
 import { RenderBoolean } from 'components/RenderBoolean'
+import { useSession } from 'next-auth/client'
+import { fetchGuillotina, saveActivityInGuillotina } from 'services/guillotina'
+import { useState } from 'react'
 
 export default function ItemActivityPage() {
+  const [session] = useSession()
   const router = useRouter()
   const { id, page, title, sort, sort_direction } = router.query
   const formattedPage = parseInt((page as string) ?? '0', 0)
@@ -25,7 +29,7 @@ export default function ItemActivityPage() {
         }`
       : null
   )
-
+  const [loadingSave, setLoadingSave] = useState(false)
   const doPaginate = (page) => {
     router.push({
       pathname: '/activities/[id]',
@@ -66,6 +70,36 @@ export default function ItemActivityPage() {
                   text={activity.kilojoules ? `${activity.kilojoules} Kj` : '---'}
                 />
                 <RenderInfo label="Total Segments efforts" text={segmentEfforts.items_total} />
+                <button
+                  onClick={async () => {
+                    setLoadingSave(true)
+                    await saveActivityInGuillotina(activity.id_strava, session.accessToken)
+                    setLoadingSave(false)
+
+                    window.location.reload()
+                  }}
+                  className={`button ${loadingSave ? 'is-loading' : ''}`}
+                >
+                  Synchronize
+                </button>
+                <button
+                  onClick={async () => {
+                    setLoadingSave(true)
+                    for (let i = 0; i < segmentEfforts.items.length; i++) {
+                      await fetchGuillotina({
+                        method: 'delete',
+                        path: segmentEfforts.items[i]['@name'],
+                      })
+                    }
+
+                    setLoadingSave(false)
+
+                    window.location.reload()
+                  }}
+                  className={`button ${loadingSave ? 'is-loading' : ''}`}
+                >
+                  Delete segments efforts
+                </button>
                 <a
                   rel="noreferrer"
                   className="button"
